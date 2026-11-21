@@ -15,7 +15,8 @@ builder.Services.AddSingleton<DeviceService>(provider =>
     var factory = provider.GetRequiredService<IHttpClientFactory>();
     return new DeviceService(factory.CreateClient("Devices"));
 });
-
+builder.Services.AddSingleton<WorkflowService>();
+builder.Services.AddHostedService<WorkflowEngine>();
 builder.Services.AddMcpServer()
     .WithHttpTransport()
     .WithTools<SmartHomeTools>();
