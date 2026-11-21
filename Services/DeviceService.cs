@@ -62,4 +62,46 @@ public class DeviceService
 
         return status;
     }
+ public async Task<DeviceConfig?> GetDeviceConfigAsync(string deviceName)
+{
+    var device = _devices.FirstOrDefault(d =>
+        d.Name.Equals(deviceName, StringComparison.OrdinalIgnoreCase));
+
+    if (string.IsNullOrEmpty(device.Url))
+    {
+        return null;
+    }
+
+    return await _httpClient.GetFromJsonAsync<DeviceConfig>(
+        $"{device.Url}/config");
+}
+public async Task<string> ExecuteDeviceActionAsync(
+    string deviceName, string actionName)
+{
+    var device = _devices.FirstOrDefault(d =>
+        d.Name.Equals(deviceName, StringComparison.OrdinalIgnoreCase));
+
+    if (string.IsNullOrEmpty(device.Url))
+    {
+        return "Device not found.";
+    }
+
+    var config = await GetDeviceConfigAsync(deviceName);
+
+    var action = config?.Actions.FirstOrDefault(a =>
+        a.Action.Equals(actionName, StringComparison.OrdinalIgnoreCase));
+
+    if (action == null)
+    {
+        return "Action not found.";
+    }
+
+    if (action.CommandType == 0 && action.Command == "info")
+    {
+        return await _httpClient.GetStringAsync(
+            $"{device.Url}/info");
+    }
+
+    return "This action is not enabled.";
+    }
 }
