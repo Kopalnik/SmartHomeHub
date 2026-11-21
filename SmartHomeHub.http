@@ -1,0 +1,11 @@
+@SmartHomeHub_HostAddress = http://localhost:5124
+
+GET {{SmartHomeHub_HostAddress}}/openapi/v1.json
+Accept: application/json
+
+###
+
+GET {{SmartHomeHub_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

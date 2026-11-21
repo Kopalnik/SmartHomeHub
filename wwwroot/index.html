@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Home Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <header class="header">
+        <h1>Smart Home Dashboard</h1>
+        <p>Real-time device monitoring system</p>
+    </header>
+
+    <main class="container">
+
+        <section class="summary">
+
+            <div class="summary-card total">
+                <h2>Total Devices</h2>
+                <span id="total-devices">0</span>
+            </div>
+
+            <div class="summary-card online">
+                <h2>Online Devices</h2>
+                <span id="online-devices">0</span>
+            </div>
+
+            <div class="summary-card offline">
+                <h2>Offline Devices</h2>
+                <span id="offline-devices">0</span>
+            </div>
+
+        </section>
+
+        <section class="devices-section">
+
+            <div class="section-header">
+                <h2>Device Monitoring</h2>
+                <button id="refresh-button">Refresh</button>
+            </div>
+
+            <p id="last-updated">Waiting for data...</p>
+
+            <p id="error-message" role="alert"></p>
+
+            <div id="devices-container" class="devices-grid">
+                <p>Loading devices...</p>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Smart Home Hub | IT Camp 2026</p>
+    </footer>
+
+</body>
+</html>
