@@ -1,12 +1,16 @@
+// References to dashboard HTML elements.
 const devicesContainer = document.getElementById("devices-container");
 const refreshButton = document.getElementById("refresh-button");
 const lastUpdated = document.getElementById("last-updated");
 const errorMessage = document.getElementById("error-message");
 
+// Prevents overlapping dashboard refresh requests.
 let isLoading = false;
 
-// Format device uptime
-
+/**
+ * Converts device uptime from seconds into a readable
+ * hours, minutes, and seconds format.
+ */
 function formatUptime(seconds) {
     if (seconds == null) return "N/A";
 
@@ -21,16 +25,18 @@ function formatUptime(seconds) {
     return `${hours}h ${minutes}m ${remainingSeconds}s`;
 }
 
-// Format date
-
+/**
+ * Formats a timestamp using the user's local date and time format.
+ */
 function formatDate(date) {
     if (!date) return "Never";
 
     return new Date(date).toLocaleString();
 }
 
-// Create information row
-
+/**
+ * Creates an information row containing a label and value.
+ */
 function createInfoRow(label, value) {
     const row = document.createElement("div");
     row.className = "info-row";
@@ -48,12 +54,15 @@ function createInfoRow(label, value) {
     return row;
 }
 
-// Create device card
-
+/**
+ * Creates a device card displaying its connection status,
+ * network information, and available metrics.
+ */
 function createDeviceCard(device) {
     const card = document.createElement("article");
     card.className = "device-card";
 
+    // Creates the device card header.
     const header = document.createElement("div");
     header.className = "device-header";
 
@@ -62,6 +71,7 @@ function createDeviceCard(device) {
 
     const status = document.createElement("span");
 
+    // Sets the status badge according to device availability.
     status.className = device.isOnline
         ? "status-badge status-online"
         : "status-badge status-offline";
@@ -72,11 +82,14 @@ function createDeviceCard(device) {
 
     header.append(name, status);
 
+    // Creates the device information container.
     const info = document.createElement("div");
     info.className = "device-info";
 
+    // Retrieves available device metrics.
     const metrics = device.info?.metrics ?? {};
 
+    // Displays device properties and measurements.
     info.append(
         createInfoRow("API URL", device.url),
         createInfoRow("IP Address", device.info?.address ?? "N/A"),
@@ -101,8 +114,10 @@ function createDeviceCard(device) {
     return card;
 }
 
-// Update dashboard summary
-
+/**
+ * Calculates and updates total, online, and offline
+ * device statistics on the dashboard.
+ */
 function updateSummary(devices) {
     const total = devices.length;
     const online = devices.filter(device => device.isOnline).length;
@@ -112,24 +127,31 @@ function updateSummary(devices) {
     document.getElementById("offline-devices").textContent = total - online;
 }
 
-// Display devices
-
+/**
+ * Renders all monitored devices in the dashboard grid.
+ */
 function renderDevices(devices) {
+    // Removes previously displayed device cards.
     devicesContainer.replaceChildren();
 
+    // Displays a message when no devices are available.
     if (devices.length === 0) {
         devicesContainer.textContent = "No devices found.";
         return;
     }
 
+    // Creates and displays a card for each device.
     devices.forEach(device => {
         devicesContainer.appendChild(createDeviceCard(device));
     });
 }
 
-// Fetch data from backend
-
+/**
+ * Retrieves current device data from the backend REST API
+ * and updates the dashboard.
+ */
 async function loadDashboard() {
+    // Prevents multiple simultaneous refresh requests.
     if (isLoading) return;
 
     isLoading = true;
@@ -137,40 +159,43 @@ async function loadDashboard() {
     errorMessage.textContent = "";
 
     try {
+        // Sends a request to the device monitoring API.
         const response = await fetch("/api/devices");
 
         if (!response.ok) {
             throw new Error("Failed to fetch devices.");
         }
 
+        // Converts the JSON response into JavaScript data.
         const devices = await response.json();
 
+        // Updates dashboard statistics and device cards.
         updateSummary(devices);
         renderDevices(devices);
 
+        // Displays the time of the last successful update.
         lastUpdated.textContent =
             `Last updated: ${new Date().toLocaleString()}`;
 
     } catch (error) {
+        // Displays an error message if API communication fails.
         errorMessage.textContent =
             "Unable to connect to the Smart Home Hub.";
 
         console.error(error);
 
     } finally {
+        // Restores the refresh button after the request completes.
         isLoading = false;
         refreshButton.disabled = false;
     }
 }
 
-// Manual refresh
-
+// Enables manual dashboard refresh.
 refreshButton.addEventListener("click", loadDashboard);
 
-// Initial load
-
+// Loads dashboard data when the page is opened.
 loadDashboard();
 
-// Automatic refresh every 5 seconds
-
+// Automatically refreshes dashboard data every 5 seconds.
 setInterval(loadDashboard, 5000);

@@ -1,10 +1,12 @@
-/* Global styles */
+/* Global styles and CSS reset */
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
+
+/* Base typography and dark dashboard theme */
 
 body {
     font-family: Arial, sans-serif;
@@ -13,7 +15,7 @@ body {
     min-height: 100vh;
 }
 
-/* Header */
+/* Dashboard header */
 
 .header {
     background-color: #1e293b;
@@ -31,7 +33,7 @@ body {
     color: #94a3b8;
 }
 
-/* Main container */
+/* Main content container */
 
 .container {
     max-width: 1200px;
@@ -39,7 +41,7 @@ body {
     padding: 0 20px;
 }
 
-/* Summary cards */
+/* Summary cards layout */
 
 .summary {
     display: grid;
@@ -47,6 +49,8 @@ body {
     gap: 20px;
     margin-bottom: 40px;
 }
+
+/* Summary card appearance */
 
 .summary-card {
     background-color: #1e293b;
@@ -66,6 +70,8 @@ body {
     font-size: 40px;
     font-weight: bold;
 }
+
+/* Color indicators for total, online, and offline devices */
 
 .total {
     border-color: #38bdf8;
@@ -91,7 +97,7 @@ body {
     color: #ef4444;
 }
 
-/* Device monitoring section */
+/* Device monitoring section header */
 
 .section-header {
     display: flex;
@@ -105,7 +111,7 @@ body {
     font-size: 24px;
 }
 
-/* Refresh button */
+/* Manual refresh button and interaction states */
 
 #refresh-button {
     background-color: #2563eb;
@@ -127,13 +133,15 @@ body {
     cursor: wait;
 }
 
+/* Last data update timestamp */
+
 #last-updated {
     color: #94a3b8;
     font-size: 14px;
     margin-bottom: 20px;
 }
 
-/* Device grid */
+/* Responsive device grid layout */
 
 .devices-grid {
     display: grid;
@@ -141,7 +149,7 @@ body {
     gap: 20px;
 }
 
-/* Device cards */
+/* Individual device cards and hover animation */
 
 .device-card {
     background-color: #1e293b;
@@ -155,6 +163,8 @@ body {
     transform: translateY(-3px);
 }
 
+/* Device card header */
+
 .device-header {
     display: flex;
     justify-content: space-between;
@@ -167,7 +177,7 @@ body {
     font-size: 22px;
 }
 
-/* Status badges */
+/* Device status badges */
 
 .status-badge {
     display: inline-block;
@@ -176,6 +186,8 @@ body {
     font-size: 13px;
     font-weight: bold;
 }
+
+/* Online and offline status colors */
 
 .status-online {
     background-color: #14532d;
@@ -187,13 +199,15 @@ body {
     color: #fca5a5;
 }
 
-/* Device information */
+/* Device information layout */
 
 .device-info {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
+
+/* Device property rows, labels, and values */
 
 .info-row {
     display: flex;
@@ -214,18 +228,20 @@ body {
     overflow-wrap: anywhere;
 }
 
-/* Errors */
+/* API error message styling */
 
 #error-message {
     color: #fca5a5;
     margin-bottom: 15px;
 }
 
+/* Hides the error message when no error is present */
+
 #error-message:empty {
     display: none;
 }
 
-/* Footer */
+/* Dashboard footer */
 
 footer {
     text-align: center;
@@ -234,7 +250,7 @@ footer {
     padding: 30px;
 }
 
-/* Responsive design */
+/* Responsive design for mobile devices and smaller screens */
 
 @media (max-width: 768px) {
     .summary {
@@ -248,4 +264,4 @@ footer {
     .header h1 {
         font-size: 26px;
     }
-} 
+}

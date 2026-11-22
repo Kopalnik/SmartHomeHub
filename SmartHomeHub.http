@@ -1,11 +1,28 @@
-@SmartHomeHub_HostAddress = http://localhost:5124
+@SmartHomeHub_HostAddress = http://localhost:5002
 
-GET {{SmartHomeHub_HostAddress}}/openapi/v1.json
+### Retrieve all monitored devices
+GET {{SmartHomeHub_HostAddress}}/api/devices
 Accept: application/json
 
-###
-
-GET {{SmartHomeHub_HostAddress}}/weatherforecast/
+### Retrieve device status summary
+GET {{SmartHomeHub_HostAddress}}/api/devices/summary
 Accept: application/json
+
+### Retrieve all automation workflows
+GET {{SmartHomeHub_HostAddress}}/api/workflows
+Accept: application/json
+
+### Create a new automation workflow
+POST {{SmartHomeHub_HostAddress}}/api/workflows
+Content-Type: application/json
+
+{
+    "name": "Monitor Online Device1",
+    "trigger": "interval",
+    "condition": "online",
+    "deviceName": "Device1",
+    "action": "INFO",
+    "isEnabled": true
+}
 
 ###
